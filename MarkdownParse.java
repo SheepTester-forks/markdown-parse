@@ -11,16 +11,27 @@ public class MarkdownParse {
         // find the next [, then find the ], then find the (, then take up to
         // the next )
         int currentIndex = 0;
-        while (currentIndex < markdown.length()) {
+        main: while (currentIndex < markdown.length()) {
             int nextOpenBracket = markdown.indexOf("[", currentIndex);
             if (nextOpenBracket == -1) {
                 break;
             }
             int nextCloseBracket = markdown.indexOf("]", nextOpenBracket);
             int openParen = markdown.indexOf("(", nextCloseBracket);
-            int closeParen = markdown.indexOf(")", openParen);
-            toReturn.add(markdown.substring(openParen + 1, closeParen));
-            currentIndex = closeParen + 1;
+            currentIndex = openParen + 1;
+            int parenthesisLevel = 1;
+            while (parenthesisLevel > 0) {
+                currentIndex++;
+                if (currentIndex >= markdown.length()) {
+                    break main;
+                }
+                if (markdown.charAt(currentIndex) == '(') {
+                    parenthesisLevel++;
+                } else if (markdown.charAt(currentIndex) == ')') {
+                    parenthesisLevel--;
+                }
+            }
+            toReturn.add(markdown.substring(openParen + 1, currentIndex));
         }
         return toReturn;
     }
