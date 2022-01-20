@@ -16,6 +16,11 @@ public class MarkdownParse {
             if (nextOpenBracket == -1) {
                 break;
             }
+            if (nextOpenBracket > 0 && markdown.charAt(nextOpenBracket - 1) == '\\') {
+                // Link is escaped
+                currentIndex = nextOpenBracket + 1;
+                continue;
+            }
             boolean isImage = nextOpenBracket > 0 && markdown.charAt(nextOpenBracket - 1) == '!';
             int nextCloseBracket = markdown.indexOf("]", nextOpenBracket);
             int openParen = markdown.indexOf("(", nextCloseBracket);
@@ -33,7 +38,16 @@ public class MarkdownParse {
                 }
             }
             if (!isImage) {
-                toReturn.add(markdown.substring(openParen + 1, currentIndex));
+                // Remove whitespace at either end of URL (permitting at most
+                // one newline)
+                String url = markdown.substring(openParen + 1, currentIndex).replaceAll("\\A( *\\n)? *", "")
+                        .replaceAll(" *(\\n *)?\\Z", "");
+                System.out.println(url);
+                if (url.contains(" ") || url.contains("\n")) {
+                    currentIndex = nextOpenBracket + 1;
+                } else {
+                    toReturn.add(url);
+                }
             }
         }
         return toReturn;
