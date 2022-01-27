@@ -42,7 +42,6 @@ public class MarkdownParse {
                 // one newline)
                 String url = markdown.substring(openParen + 1, currentIndex).replaceAll("\\A( *\\n)? *", "")
                         .replaceAll(" *(\\n *)?\\Z", "");
-                System.out.println(url);
                 if (url.contains(" ") || url.contains("\n")) {
                     currentIndex = nextOpenBracket + 1;
                 } else {
