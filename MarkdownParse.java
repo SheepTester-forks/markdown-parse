@@ -24,6 +24,12 @@ public class MarkdownParse {
             boolean isImage = nextOpenBracket > 0 && markdown.charAt(nextOpenBracket - 1) == '!';
             int nextCloseBracket = markdown.indexOf("]", nextOpenBracket);
             int openParen = markdown.indexOf("(", nextCloseBracket);
+            if (openParen != nextCloseBracket + 1) {
+                // There is something between the closing bracket and opening
+                // parentheses
+                currentIndex = nextOpenBracket + 1;
+                continue;
+            }
             currentIndex = openParen + 1;
             int parenthesisLevel = 1;
             while (parenthesisLevel > 0) {
