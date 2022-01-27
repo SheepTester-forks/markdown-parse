@@ -1,3 +1,5 @@
+// javac -cp .:lib/junit-4.13.2.jar:lib/hamcrest-core-1.3.jar MarkdownParseTest.java && java -cp .:lib/junit-4.13.2.jar:lib/hamcrest-core-1.3.jar org.junit.runner.JUnitCore MarkdownParseTest
+
 import static org.junit.Assert.*;
 import org.junit.*;
 
@@ -12,10 +14,53 @@ public class MarkdownParseTest {
         assertEquals(2, 1 + 1);
     }
 
+    // IF YOU WANT A TEST FOR EACH OF THEIR TEST FILES
     @Test
     public void testTestFile() throws IOException {
         String markdown = Files.readString(Path.of("test-file.md"));
         assertEquals(List.of("https://something.com", "some-page.html"), MarkdownParse.getLinks(markdown));
+    }
+
+    @Test
+    public void testTestFile2() throws IOException {
+        String markdown = Files.readString(Path.of("test-file2.md"));
+        assertEquals(List.of("https://something.com", "some-page.html"), MarkdownParse.getLinks(markdown));
+    }
+
+    @Test
+    public void testTestFile3() throws IOException {
+        String markdown = Files.readString(Path.of("test-file3.md"));
+        assertEquals(List.of(), MarkdownParse.getLinks(markdown));
+    }
+
+    @Test
+    public void testTestFile4() throws IOException {
+        String markdown = Files.readString(Path.of("test-file4.md"));
+        assertEquals(List.of(), MarkdownParse.getLinks(markdown));
+    }
+
+    @Test
+    public void testTestFile5() throws IOException {
+        String markdown = Files.readString(Path.of("test-file5.md"));
+        assertEquals(List.of(), MarkdownParse.getLinks(markdown));
+    }
+
+    @Test
+    public void testTestFile6() throws IOException {
+        String markdown = Files.readString(Path.of("test-file6.md"));
+        assertEquals(List.of(), MarkdownParse.getLinks(markdown));
+    }
+
+    @Test
+    public void testTestFile7() throws IOException {
+        String markdown = Files.readString(Path.of("test-file7.md"));
+        assertEquals(List.of(), MarkdownParse.getLinks(markdown));
+    }
+
+    @Test
+    public void testTestFile8() throws IOException {
+        String markdown = Files.readString(Path.of("test-file8.md"));
+        assertEquals(List.of(), MarkdownParse.getLinks(markdown));
     }
 
     @Test
@@ -59,12 +104,4 @@ public class MarkdownParseTest {
         String markdown = Files.readString(Path.of("weird-urls.md"));
         assertEquals(List.of("https://en.wikipedia.org/wiki/1984_(disambiguation)"), MarkdownParse.getLinks(markdown));
     }
-
-    @Test
-    public void testFile1() throws IOException {
-        String contents= Files.readString(Path.of("./test-file.md"));
-        List<String> expect = List.of("https://something.com", "some-page.html");
-        assertEquals(MarkdownParse.getLinks(contents), expect);
-    }
-    
 }
