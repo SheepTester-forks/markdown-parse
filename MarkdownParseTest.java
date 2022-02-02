@@ -124,6 +124,12 @@ public class MarkdownParseTest {
     }
 
     @Test
+    public void testFailureInducingInput() throws IOException {
+        String markdown = Files.readString(Path.of("failure-inducing-input.md"));
+        assertEquals(List.of(""), MarkdownParse.getLinks(markdown));
+    }
+
+    @Test
     public void testGitHubActions() {
         assertTrue(true);
     }
