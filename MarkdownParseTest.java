@@ -122,4 +122,9 @@ public class MarkdownParseTest {
         String markdown = Files.readString(Path.of("new-file.md"));
         assertEquals(List.of("google.com", "some-()()([][][][])()()page().html"), MarkdownParse.getLinks(markdown));
     }
+
+    @Test
+    public void testGitHubActions() {
+        assertTrue(false);
+    }
 }
