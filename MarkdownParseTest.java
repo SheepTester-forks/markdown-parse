@@ -104,4 +104,22 @@ public class MarkdownParseTest {
         String markdown = Files.readString(Path.of("weird-urls.md"));
         assertEquals(List.of("https://en.wikipedia.org/wiki/1984_(disambiguation)"), MarkdownParse.getLinks(markdown));
     }
+
+    @Test
+    public void testImage2() throws IOException {
+        String markdown = Files.readString(Path.of("image2.md"));
+        assertEquals(List.of("google.com"), MarkdownParse.getLinks(markdown));
+    }
+
+    @Test
+    public void testIncorrect() throws IOException {
+        String markdown = Files.readString(Path.of("incorrect.md"));
+        assertEquals(List.of(), MarkdownParse.getLinks(markdown));
+    }
+
+    @Test
+    public void testNewFile() throws IOException {
+        String markdown = Files.readString(Path.of("new-file.md"));
+        assertEquals(List.of("google.com", "some-()()([][][][])()()page().html"), MarkdownParse.getLinks(markdown));
+    }
 }
