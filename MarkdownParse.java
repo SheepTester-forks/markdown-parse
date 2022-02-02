@@ -30,7 +30,7 @@ public class MarkdownParse {
                 currentIndex = nextOpenBracket + 1;
                 continue;
             }
-            currentIndex = openParen + 1;
+            currentIndex = openParen;
             int parenthesisLevel = 1;
             while (parenthesisLevel > 0) {
                 currentIndex++;
