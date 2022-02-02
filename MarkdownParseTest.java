@@ -125,6 +125,6 @@ public class MarkdownParseTest {
 
     @Test
     public void testGitHubActions() {
-        assertTrue(false);
+        assertTrue(true);
     }
 }
