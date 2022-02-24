@@ -11,7 +11,9 @@ public class MarkdownParse {
         // the next )
         int currentIndex = 0;
         int pastCloseParen = 0;
+        System.out.println("When in loop?\tcurrentIndex\tpastCloseParen\tnextOpenBracket\tnextCloseBracket\topenParen\tcloseParen\tvalidFormat\ttempString");
         while(currentIndex < markdown.length()) {
+            System.out.format("Beginning\t%d\t%d\n", currentIndex, pastCloseParen);
             int nextOpenBracket = markdown.indexOf("[", currentIndex);
 
             // System.out.println("Value of current index before loop: " + currentIndex);
@@ -27,7 +29,7 @@ public class MarkdownParse {
                 break;
             }
             String tempString = markdown.substring(openParen+1, closeParen);
-            if(!tempString.contains("[") && !tempString.contains("]") && 
+            if(!tempString.contains("]") && 
                 !tempString.contains("(") && !tempString.contains(")")){validFormat = true;}
             if(validFormat == false){
                 nextOpenBracket = markdown.indexOf("[", openParen);
@@ -45,16 +47,21 @@ public class MarkdownParse {
             // System.out.println("Index of next open bracket - 1: " + (nextOpenBracket - 1));
             if(nextOpenBracket >0 ) {
                 if(!markdown.substring(nextOpenBracket-1, nextOpenBracket).equals("!") &&
-                    markdown.substring(openParen-1, openParen).equals("]")){
-                    toReturn.add(markdown.substring(openParen + 1, closeParen));
+                    markdown.substring(openParen-1, openParen).equals("]") &&
+                    !markdown.substring(openParen + 1, closeParen).trim().contains(" ") &&
+                    !markdown.substring(openParen + 1, closeParen).trim().contains("\n")){
+                    toReturn.add(markdown.substring(openParen + 1, closeParen).trim());
                 }
             } else {
-                if(markdown.substring(openParen-1, openParen).equals("]")){
-                    toReturn.add(markdown.substring(openParen + 1, closeParen));
+                if(markdown.substring(openParen-1, openParen).equals("]") &&
+                    !markdown.substring(openParen + 1, closeParen).trim().contains(" ") &&
+                    !markdown.substring(openParen + 1, closeParen).trim().contains("\n")){
+                    toReturn.add(markdown.substring(openParen + 1, closeParen).trim());
                 }
             }
             currentIndex = closeParen + 1;
             // System.out.println("Value of current index after loop: " + currentIndex);
+            System.out.format("End\t%d\t%d\t%d\t%d\t%d\t%d\t%b\t%s\n", currentIndex, pastCloseParen, nextOpenBracket, nextCloseBracket, openParen, closeParen, validFormat, tempString);
         }
         System.out.println("test change");
         return toReturn;
