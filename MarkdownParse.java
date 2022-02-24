@@ -16,6 +16,20 @@ public class MarkdownParse {
             if (nextOpenBracket == -1) {
                 break;
             }
+            int nextBacktick = markdown.indexOf("`", currentIndex);
+            if (nextBacktick != -1 && nextBacktick < nextOpenBracket) {
+                int nextNextBacktick = markdown.indexOf("`", nextBacktick + 1);
+                // Ensure that there is no paragraph break in between the
+                // backticks
+                if (nextNextBacktick != -1
+                        && !markdown.substring(nextBacktick, nextNextBacktick).contains("\n\n")) {
+                    // Skip to the next backtick
+                    currentIndex = nextNextBacktick + 1;
+                    continue;
+                }
+                // Otherwise, the file does not have a matching backtick, so can
+                // ignore this backtick.
+            }
             if (nextOpenBracket > 0 && markdown.charAt(nextOpenBracket - 1) == '\\') {
                 // Link is escaped
                 currentIndex = nextOpenBracket + 1;
@@ -23,6 +37,15 @@ public class MarkdownParse {
             }
             boolean isImage = nextOpenBracket > 0 && markdown.charAt(nextOpenBracket - 1) == '!';
             int nextCloseBracket = markdown.indexOf("]", nextOpenBracket);
+            if (nextBacktick != -1 && nextBacktick < nextCloseBracket) {
+                // The backtick at this point is between [ and ], so we have to
+                // skip to the next backtick before looking for the actual
+                // closing ]
+                int nextNextBacktick = markdown.indexOf("`", nextBacktick + 1);
+                if (nextNextBacktick != -1) {
+                    nextCloseBracket = markdown.indexOf("]", nextNextBacktick);
+                }
+            }
             int openParen = markdown.indexOf("(", nextCloseBracket);
             if (openParen != nextCloseBracket + 1) {
                 // There is something between the closing bracket and opening
