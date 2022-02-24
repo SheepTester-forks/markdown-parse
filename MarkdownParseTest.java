@@ -161,4 +161,25 @@ public class MarkdownParseTest {
         String markdown = Files.readString(Path.of("failure-inducing-input.md"));
         assertEquals(List.of(""), MarkdownParse.getLinks(markdown));
     }
+
+    @Test
+    public void testSnippet1() throws IOException {
+        String markdown = Files.readString(Path.of("snippet1.md"));
+        assertEquals(List.of("`google.com", "google.com", "ucsd.edu"), MarkdownParse.getLinks(markdown));
+    }
+
+    @Test
+    public void testSnippet2() throws IOException {
+        String markdown = Files.readString(Path.of("snippet2.md"));
+        assertEquals(List.of("a.com",
+                "a.com(())",
+                "example.com"), MarkdownParse.getLinks(markdown));
+    }
+
+    @Test
+    public void testSnippet3() throws IOException {
+        String markdown = Files.readString(Path.of("snippet3.md"));
+        assertEquals(List.of("https://www.twitter.com", "https://ucsd-cse15l-w22.github.io/", "https://cse.ucsd.edu/"),
+                MarkdownParse.getLinks(markdown));
+    }
 }
