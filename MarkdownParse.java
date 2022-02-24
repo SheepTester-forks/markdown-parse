@@ -37,6 +37,9 @@ public class MarkdownParse {
             }
             boolean isImage = nextOpenBracket > 0 && markdown.charAt(nextOpenBracket - 1) == '!';
             int nextCloseBracket = markdown.indexOf("]", nextOpenBracket);
+            while (nextCloseBracket != -1 && markdown.charAt(nextCloseBracket - 1) == '\\') {
+                nextCloseBracket = markdown.indexOf("]", nextCloseBracket + 1);
+            }
             if (nextBacktick != -1 && nextBacktick < nextCloseBracket) {
                 // The backtick at this point is between [ and ], so we have to
                 // skip to the next backtick before looking for the actual
