@@ -5,10 +5,13 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.commonmark.Extension;
+import org.commonmark.ext.autolink.AutolinkExtension;
 import org.commonmark.node.AbstractVisitor;
 import org.commonmark.node.Link;
 import org.commonmark.node.Node;
@@ -26,7 +29,8 @@ class LinkVisitor extends AbstractVisitor {
 
 public class MarkdownParse {
     public static ArrayList<String> getLinks(String markdown) {
-        Parser parser = Parser.builder().build();
+        List<Extension> extensions = Arrays.asList(AutolinkExtension.create());
+        Parser parser = Parser.builder().extensions(extensions).build();
         Node node = parser.parse(markdown);
         LinkVisitor visitor = new LinkVisitor();
         node.accept(visitor);
